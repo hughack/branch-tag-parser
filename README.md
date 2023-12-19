@@ -37,7 +37,7 @@ jobs:
 
     - name: Process Git Reference
       id: ref_processor
-      uses: hughack/branch-tag-parser@v<version>
+      uses: hughack/branch-tag-parser@<version>
       with:
         ref: ${{ github.ref }}
 
