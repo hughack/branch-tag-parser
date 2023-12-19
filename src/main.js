@@ -2,8 +2,7 @@ const core = require('@actions/core');
 const github = require('@actions/github');
 
 try {
-  const token = core.getInput('github_token');
-  console.log(`Using github token: ${token}`);
+  const token = process.env.GITHUB_TOKEN;
   const octokit = new github.getOctokit(token);
 } catch (error) {
   console.log("Unable to find github token. Probably not running on github actions.");
@@ -30,9 +29,28 @@ async function getFullRef(shortRef) {
   return refs[0].ref;
 }
 
-function processRef(ref) {
+
+async function getCommitHash(ref) {
+  if (!token) {
+    console.log("Unable to find github token. Probably not running on github actions.");
+    return;
+  }
+  
+  try {
+    const { data } = await octokit.rest.repos.getCommit({
+      owner: github.context.repo.owner,
+      repo: github.context.repo.repo,
+      ref: ref
+    });
+    return data.sha;
+  } catch (error) {
+    core.setFailed(`Error getting commit hash: ${error.message}`);
+  }
+}
+
+async function processRef(ref) {
   let referenceType;
-  let fullHash = '';
+  let fullHash = await getCommitHash(ref);
   let tagPrefix = '';
   let processedTagPrefix = '';
   let tagSuffix = '';
@@ -86,7 +104,7 @@ async function run() {
       processedTagSuffix, 
       branchName, 
       branchNameProcessed 
-    } = processRef(ref);
+    } = await processRef(ref);
   
     core.setOutput("reference_type", referenceType);
     core.setOutput("original_ref", ref);
