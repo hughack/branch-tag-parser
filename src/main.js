@@ -1,56 +1,7 @@
 const core = require('@actions/core');
-const github = require('@actions/github');
 
-try {
-  const token = process.env.GITHUB_TOKEN;
-  const octokit = new github.getOctokit(token);
-} catch (error) {
-  console.log("Unable to find github token. Probably not running on github actions.");
-}
-
-async function getFullRef(shortRef) {
-  // Check if shortRef is already a full ref
-  if (shortRef.startsWith('refs/')) {
-    return shortRef;
-  }
-
-  // Attempt to find the full reference via GitHub API
-  const { data: refs } = await octokit.rest.git.listMatchingRefs({
-    owner: github.context.repo.owner,
-    repo: github.context.repo.repo,
-    ref: shortRef
-  });
-
-  if (refs.length === 0) {
-    throw new Error(`No matching reference found for ${shortRef}`);
-  }
-
-  // Assuming the first match is the desired one
-  return refs[0].ref;
-}
-
-
-async function getCommitHash(ref) {
-  if (!token) {
-    console.log("Unable to find github token. Probably not running on github actions.");
-    return;
-  }
-  
-  try {
-    const { data } = await octokit.rest.repos.getCommit({
-      owner: github.context.repo.owner,
-      repo: github.context.repo.repo,
-      ref: ref
-    });
-    return data.sha;
-  } catch (error) {
-    core.setFailed(`Error getting commit hash: ${error.message}`);
-  }
-}
-
-async function processRef(ref) {
+function processRef(ref) {
   let referenceType;
-  let fullHash = await getCommitHash(ref);
   let tagPrefix = '';
   let processedTagPrefix = '';
   let tagSuffix = '';
@@ -71,48 +22,41 @@ async function processRef(ref) {
     branchNameProcessed = branchName.replace(/\//g, '-');
   }
 
+  console.log(`Reference type: ${referenceType}`);
+
   return { 
-    referenceType, 
-    fullHash, 
-    tagPrefix, 
-    processedTagPrefix, 
-    tagSuffix, 
-    processedTagSuffix, 
-    branchName, 
-    branchNameProcessed 
+    referenceType,
+    tagPrefix,
+    processedTagPrefix,
+    tagSuffix,
+    processedTagSuffix,
+    branchName,
+    branchNameProcessed
   };
 }
 
 module.exports = { processRef };
 
-try {
-} catch (error) {
-  core.setFailed(error.message);
-}
-
-async function run() {
+function run() {
   try {
     let ref = core.getInput('ref');
-    ref = await getFullRef(ref);
   
     const { 
       referenceType, 
-      fullHash, 
       tagPrefix, 
       processedTagPrefix, 
       tagSuffix, 
       processedTagSuffix, 
       branchName, 
       branchNameProcessed 
-    } = await processRef(ref);
+    } = processRef(ref);
   
     core.setOutput("reference_type", referenceType);
     core.setOutput("original_ref", ref);
-    core.setOutput("full_hash", fullHash);
     core.setOutput("tag_prefix", tagPrefix);
-    core.setOutput("processed_tag_prefix", processedTagPrefix);
+    core.setOutput("tag_prefix_processed", processedTagPrefix);
     core.setOutput("tag_suffix", tagSuffix);
-    core.setOutput("processed_tag_suffix", processedTagSuffix);
+    core.setOutput("tag_suffix_processed", processedTagSuffix);
     core.setOutput("branch_name", branchName);
     core.setOutput("branch_name_processed", branchNameProcessed);
   } catch (error) {

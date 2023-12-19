@@ -5,7 +5,7 @@ This GitHub Action processes git references (tags and branches) for CI/CD workfl
 
 ## Features
 - Processes tag and branch references.
-- Supports both full references (`refs/heads/`, `refs/tags/`) and shortened ones (`my-branch`, `my-tag/1.2.3`).
+- *Only* supports full references (`refs/heads/...`, `refs/tags/...`), will add more support in the future.
 - Extracts and processes parts of tags and branches for versatile use.
 
 ## Inputs
@@ -16,11 +16,10 @@ This GitHub Action processes git references (tags and branches) for CI/CD workfl
 
 - `reference_type`: Indicates whether the input is a tag or a branch.
 - `original_ref`: The original reference string.
-- `full_hash`: Full commit hash (if applicable).
 - `tag_prefix`: Unprocessed prefix part of the tag (if applicable).
-- `processed_tag_prefix`: Processed tag prefix with slashes replaced by dashes.
+- `tag_prefix_processed`: Processed tag prefix with slashes replaced by dashes.
 - `tag_suffix`: Suffix part of the tag (if applicable).
-- `processed_tag_suffix`: Processed tag suffix with slashes replaced by dashes.
+- `tag_suffix_processed`: Processed tag suffix with slashes replaced by dashes.
 - `branch_name`: Unprocessed branch name (if applicable).
 - `branch_name_processed`: Processed branch name with slashes replaced by dashes.
 
