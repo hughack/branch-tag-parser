@@ -1,0 +1,31 @@
+name: 'Tag and Branch Processor'
+description: 'Processes tags and branches for CI/CD workflows'
+branding:
+  color: 'blue'
+  icon: 'file-text'
+inputs:
+  ref:
+    description: 'The git reference (tag or branch)'
+    required: true
+outputs:
+  reference_type:
+    description: 'The type of reference (branch or tag)'
+  original_ref:
+    description: 'The original reference string'
+  full_hash:
+    description: 'Full commit hash, if applicable'
+  tag_prefix:
+    description: 'Unprocessed prefix part of the tag, if applicable'
+  processed_tag_prefix:
+    description: 'Processed tag prefix with slashes replaced by dashes'
+  tag_suffix:
+    description: 'Suffix part of the tag, if applicable'
+  processed_tag_suffix:
+    description: 'Processed tag suffix with slashes replaced by dashes, if applicable'
+  branch_name:
+    description: 'Unprocessed branch name, if applicable'
+  branch_name_processed:
+    description: 'Processed branch name with slashes replaced by dashes, if applicable'
+runs:
+  using: 'node20'
+  main: 'src/main.js'

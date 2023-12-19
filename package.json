@@ -1,0 +1,21 @@
+{
+  "name": "branch-tag-parser",
+  "version": "0.1.0",
+  "description": "A GitHub Action to parse branches and tags",
+  "main": "src/main.js",
+  "scripts": {
+    "build": "node src/main.js",
+    "test": "jest"
+  },
+  "jest": {
+    "testEnvironment": "node"
+  },
+  "dependencies": {
+    "@actions/core": "^1.0.0",
+    "@actions/github": "^6.0.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.5",
+    "jest": "^29.7.0"
+  }
+}
