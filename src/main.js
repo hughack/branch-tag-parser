@@ -48,6 +48,13 @@ function run() {
   try {
     // Source branch, source version
     let ref = core.getInput('ref') || github.context.ref
+
+    if (ref.startsWith('refs/pull/')) {
+      const payload = github.context.payload;
+      const branchName = payload.pull_request.head.ref;
+      ref = `refs/heads/${branchName}`;
+    }
+
     let commit = github.context.sha
 
     const {
