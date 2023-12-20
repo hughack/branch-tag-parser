@@ -5,14 +5,14 @@ branding:
   icon: 'file-text'
 inputs:
   ref:
-    description: 'The git reference (tag or branch)'
-    required: true
+    description: 'The git reference (tag or branch), default to the checkout out branch.'
+    required: false
 outputs:
   reference_type:
     description: 'The type of reference (branch or tag)'
   original_ref:
     description: 'The original reference string'
-  full_hash:
+  commit_hash:
     description: 'Full commit hash, if applicable'
   tag_prefix:
     description: 'Unprocessed prefix part of the tag, if applicable'

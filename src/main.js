@@ -9,14 +9,14 @@ function processRef(ref) {
   let branchName = '';
   let branchNameProcessed = '';
 
-  if(ref.startsWith('refs/tags/')) {
+  if (ref.startsWith('refs/tags/')) {
     referenceType = 'tag';
     const tagParts = ref.replace('refs/tags/', '').split('/');
     tagSuffix = tagParts.pop();
     processedTagSuffix = tagSuffix.replace(/\./g, '-');
     tagPrefix = tagParts.join('/');
     processedTagPrefix = tagParts.join('-');
-  } else if(ref.startsWith('refs/heads/')) {
+  } else if (ref.startsWith('refs/heads/')) {
     referenceType = 'branch';
     branchName = ref.replace('refs/heads/', '');
     branchNameProcessed = branchName.replace(/\//g, '-');
@@ -24,7 +24,7 @@ function processRef(ref) {
 
   console.log(`Reference type: ${referenceType}`);
 
-  return { 
+  return {
     referenceType,
     tagPrefix,
     processedTagPrefix,
@@ -39,20 +39,23 @@ module.exports = { processRef };
 
 function run() {
   try {
-    let ref = core.getInput('ref');
-  
-    const { 
-      referenceType, 
-      tagPrefix, 
-      processedTagPrefix, 
-      tagSuffix, 
-      processedTagSuffix, 
-      branchName, 
-      branchNameProcessed 
+    // Source branch, source version
+    let ref = core.getInput('ref') || github.context.ref
+    let commit = github.context.sha
+
+    const {
+      referenceType,
+      tagPrefix,
+      processedTagPrefix,
+      tagSuffix,
+      processedTagSuffix,
+      branchName,
+      branchNameProcessed
     } = processRef(ref);
-  
+
     core.setOutput("reference_type", referenceType);
     core.setOutput("original_ref", ref);
+    core.setOutput("commit_hash", commit);
     core.setOutput("tag_prefix", tagPrefix);
     core.setOutput("tag_prefix_processed", processedTagPrefix);
     core.setOutput("tag_suffix", tagSuffix);
