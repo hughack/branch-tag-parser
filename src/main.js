@@ -47,13 +47,16 @@ module.exports = { processRef, isSemanticVersionedTag };
 function run() {
   try {
     // Source branch, source version
-    let ref = core.getInput('ref') || github.context.ref
-    console.log(`ref: ${ref}`)
-    if (ref.startsWith('refs/pull/')) {
+    let ref = core.getInput('ref') || github.context.ref;
+    console.log(`Initial ref: ${ref}`);
+
+    if (github.context.eventName === 'pull_request') {
       const payload = github.context.payload;
       const branchName = payload.pull_request.head.ref;
       ref = `refs/heads/${branchName}`;
-      console.log(`ref: ${ref}`)
+      console.log(`Updated ref (PR branch): ${ref}`);
+    } else {
+      console.log(`The event is not a pull request: ${github.context.eventName}`);
     }
 
     let commit = github.context.sha
