@@ -23,7 +23,7 @@ jobs:
 
     - name: Process Git Reference
       id: ref_processor
-      uses: hughack/branch-tag-parser@add-semver-as-output
+      uses: hughack/branch-tag-parser@main
 
     - name: Print Outputs
       run: |
