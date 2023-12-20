@@ -1,4 +1,4 @@
-const { processRef } = require('../src/main');
+const { processRef, isSemanticVersionedTag } = require('../src/main');
 
 describe('processRef function', () => {
   it('processes a simple tag reference', () => {
@@ -38,4 +38,27 @@ describe('processRef function', () => {
   });
 
   // Additional tests as needed
+});
+
+describe('Semantic Version Tag Tests', () => {
+  test.each([
+    ['1.2.3', true],
+    ['1.4.2-alpha', true],
+    ['2.3.1-rc.1', true],
+    ['v1.7.7', true],
+    ['v4.3.2-beta', true],
+    ['v100.200.100-alpha.100', true],
+    ['1.2.3-delta4', true],
+    // Invalid cases
+    ['1.2', false],
+    ['1.2-beta', false],
+    ['v1.2', false],
+    ['abc', false],
+    ['123', false],
+    ['v1.2.3.4', false],
+    ['1.2.3.4', false],
+    ['1.2.3+', false],
+  ])('should return %s for tag %s', (tag, expectedResult) => {
+    expect(isSemanticVersionedTag(tag)).toBe(expectedResult);
+  });
 });

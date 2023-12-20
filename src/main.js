@@ -36,7 +36,13 @@ function processRef(ref) {
   };
 }
 
-module.exports = { processRef };
+function isSemanticVersionedTag(tag) {
+  // From here: https://semver.org/
+  const semverRegex = /^(v)?(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/i;
+  return semverRegex.test(tag);
+}
+
+module.exports = { processRef, isSemanticVersionedTag };
 
 function run() {
   try {
@@ -60,6 +66,7 @@ function run() {
     core.setOutput("tag_prefix", tagPrefix);
     core.setOutput("tag_prefix_processed", processedTagPrefix);
     core.setOutput("tag_suffix", tagSuffix);
+    core.setOutput("is_semantic_versioned_tag", isSemanticVersionedTag(tagSuffix));
     core.setOutput("tag_suffix_processed", processedTagSuffix);
     core.setOutput("branch_name", branchName);
     core.setOutput("branch_name_processed", branchNameProcessed);
