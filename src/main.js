@@ -47,7 +47,18 @@ module.exports = { processRef, isSemanticVersionedTag };
 function run() {
   try {
     // Source branch, source version
-    let ref = core.getInput('ref') || github.context.ref
+    let ref = core.getInput('ref') || github.context.ref;
+    console.log(`Initial ref: ${ref}`);
+
+    if (github.context.eventName === 'pull_request') {
+      const payload = github.context.payload;
+      const branchName = payload.pull_request.head.ref;
+      ref = `refs/heads/${branchName}`;
+      console.log(`Updated ref (PR branch): ${ref}`);
+    } else {
+      console.log(`The event is not a pull request: ${github.context.eventName}`);
+    }
+
     let commit = github.context.sha
 
     const {
@@ -66,7 +77,7 @@ function run() {
     core.setOutput("tag_prefix", tagPrefix);
     core.setOutput("tag_prefix_processed", processedTagPrefix);
     core.setOutput("tag_suffix", tagSuffix);
-    core.setOutput("is_semantic_versioned_tag", isSemanticVersionedTag(tagSuffix));
+    core.setOutput("is_semver_tag", isSemanticVersionedTag(tagSuffix));
     core.setOutput("tag_suffix_processed", processedTagSuffix);
     core.setOutput("branch_name", branchName);
     core.setOutput("branch_name_processed", branchNameProcessed);

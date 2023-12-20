@@ -27,12 +27,13 @@ jobs:
 
     - name: Print Outputs
       run: |
-        echo "Reference Type:        ${{ steps.ref_processor.outputs.reference_type }}"
-        echo "Original Reference:    ${{ steps.ref_processor.outputs.original_ref }}"
-        echo "Commit hash:           ${{ steps.ref_processor.outputs.commit_hash }}"
-        echo "Tag Prefix:            ${{ steps.ref_processor.outputs.tag_prefix }}"
-        echo "Processed Tag Prefix:  ${{ steps.ref_processor.outputs.tag_prefix_processed }}"
-        echo "Tag Suffix:            ${{ steps.ref_processor.outputs.tag_suffix }}"
-        echo "Processed Tag Suffix:  ${{ steps.ref_processor.outputs.tag_suffix_processed }}"
-        echo "Branch Name:           ${{ steps.ref_processor.outputs.branch_name }}"
-        echo "Processed Branch Name: ${{ steps.ref_processor.outputs.branch_name_processed }}"
+        echo "Reference Type:         ${{ steps.ref_processor.outputs.reference_type }}"
+        echo "Original Reference:     ${{ steps.ref_processor.outputs.original_ref }}"
+        echo "Commit hash:            ${{ steps.ref_processor.outputs.commit_hash }}"
+        echo "Tag Prefix:             ${{ steps.ref_processor.outputs.tag_prefix }}"
+        echo "Processed Tag Prefix:   ${{ steps.ref_processor.outputs.tag_prefix_processed }}"
+        echo "Tag Suffix:             ${{ steps.ref_processor.outputs.tag_suffix }}"
+        echo "Processed Tag Suffix:   ${{ steps.ref_processor.outputs.tag_suffix_processed }}"
+        echo "Semantic Versioned tag: ${{ steps.ref_processor.outputs.is_semver_tag }}"
+        echo "Branch Name:            ${{ steps.ref_processor.outputs.branch_name }}"
+        echo "Processed Branch Name:  ${{ steps.ref_processor.outputs.branch_name_processed }}"
