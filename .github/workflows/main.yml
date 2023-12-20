@@ -30,7 +30,6 @@ jobs:
       run: |
         echo "Reference Type:        ${{ steps.ref_processor.outputs.reference_type }}"
         echo "Original Reference:    ${{ steps.ref_processor.outputs.original_ref }}"
-        echo "Full Hash:             ${{ steps.ref_processor.outputs.full_hash }}"
         echo "Tag Prefix:            ${{ steps.ref_processor.outputs.tag_prefix }}"
         echo "Processed Tag Prefix:  ${{ steps.ref_processor.outputs.tag_prefix_processed }}"
         echo "Tag Suffix:            ${{ steps.ref_processor.outputs.tag_suffix }}"
