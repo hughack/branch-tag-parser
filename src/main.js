@@ -66,7 +66,7 @@ function run() {
     core.setOutput("tag_prefix", tagPrefix);
     core.setOutput("tag_prefix_processed", processedTagPrefix);
     core.setOutput("tag_suffix", tagSuffix);
-    core.setOutput("is_semantic_versioned_tag", isSemanticVersionedTag(tagSuffix));
+    core.setOutput("is_semver_tag", isSemanticVersionedTag(tagSuffix));
     core.setOutput("tag_suffix_processed", processedTagSuffix);
     core.setOutput("branch_name", branchName);
     core.setOutput("branch_name_processed", branchNameProcessed);

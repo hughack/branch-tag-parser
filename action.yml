@@ -22,6 +22,8 @@ outputs:
     description: 'Suffix part of the tag, if applicable'
   processed_tag_suffix:
     description: 'Processed tag suffix with slashes replaced by dashes, if applicable'
+  is_semver_tag:
+    description: 'Whether the ref is a semantic version tag'
   branch_name:
     description: 'Unprocessed branch name, if applicable'
   branch_name_processed:
