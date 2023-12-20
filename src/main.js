@@ -81,6 +81,7 @@ function run() {
     core.setOutput("tag_suffix_processed", processedTagSuffix);
     core.setOutput("branch_name", branchName);
     core.setOutput("branch_name_processed", branchNameProcessed);
+    core.setOutput("version_label", referenceType === 'tag' ? tagSuffix : branchNameProcessed);
   } catch (error) {
     core.setFailed(error.message);
   }

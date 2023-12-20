@@ -28,6 +28,8 @@ outputs:
     description: 'Unprocessed branch name, if applicable'
   branch_name_processed:
     description: 'Processed branch name with slashes replaced by dashes, if applicable'
+  version_label:
+    description: 'Version label, this will be the tag suffix or processed branch name.'
 runs:
   using: 'node20'
   main: 'src/main.js'

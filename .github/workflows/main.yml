@@ -37,3 +37,4 @@ jobs:
         echo "Semantic Versioned tag: ${{ steps.ref_processor.outputs.is_semver_tag }}"
         echo "Branch Name:            ${{ steps.ref_processor.outputs.branch_name }}"
         echo "Processed Branch Name:  ${{ steps.ref_processor.outputs.branch_name_processed }}"
+        echo "Version label:          ${{ steps.ref_processor.outputs.version_label }}"
